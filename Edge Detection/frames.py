@@ -7,7 +7,6 @@ def FrameCaputre(path):
     while success:
         success, image = vidObj.read()
         cv2.imwrite("frame%d.jpg" % count, image)
-        if __name__ == '__main__': 
-  
+if __name__ == '__main__': 
     # Calling the function 
-    FrameCapture("C:\\Users\\Admin\\PycharmProjects\\project_1\\openCV.mp4") 
+    FrameCapture("./rpi22@2016-06-09@17-02-14BirdAndBees.mp4") 
