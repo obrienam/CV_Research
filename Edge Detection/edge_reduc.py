@@ -19,7 +19,7 @@ for imagePath in glob.glob(args['images'] + "/*.jpg"):
     image = cv.imread(imagePath)
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     blurred = cv.GaussianBlur(gray, (3,3), 0)
-    wide = cv.Canny(blurred, 10, 200)
+    wide = cv.Canny(blurred, 10, 100)
     tight = cv.Canny(blurred, 255, 250)
     auto = auto_canny(blurred)
 
