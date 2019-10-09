@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt 
 
-img1=cv2.imread('image1edge.jpg',0)
-img2=cv2.imread('image2edge.jpg',0)
+img1=cv2.imread('test/image1contrast2edge.jpg',0)
+img2=cv2.imread('test/image2contrastedge.jpg',0)
 
 orb=cv2.ORB_create()
 

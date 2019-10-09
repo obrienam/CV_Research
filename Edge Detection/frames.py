@@ -7,7 +7,7 @@ def getFrame(sec):
         cv2.imwrite("image"+str(count)+".jpg", image)     # save frame as JPG file
     return hasFrames
 sec = 0
-frameRate = 0.5 #//it will capture image in each 0.5 second
+frameRate = 0.25 #//it will capture image in each 0.5 second
 count=1
 success = getFrame(sec)
 while success:
