@@ -1,10 +1,9 @@
 import cv2 as cv
 import numpy as np
-
+import os
 feature_params=dict(maxCorners=300,qualityLevel=0.2,minDistance=2, blockSize=7)
 lk_params=dict(winSize = (15,15),maxLevel=2,criteria=(cv.TERM_CRITERIA_EPS|cv.TermCriteria_COUNT,10,0.03))
-cap=cv.VideoCapture("bees1.mp4")
-
+cap=cv.VideoCapture("F:\\Users\\aidanobrien\\Documents\\GitHub\\CV_Research\\Assets\\bees1.mp4")
 color=(0,255,0)
 ret,first_frame=cap.read()
 prev_gray=cv.cvtColor(first_frame,cv.COLOR_BGR2GRAY)
