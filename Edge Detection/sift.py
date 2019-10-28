@@ -2,8 +2,8 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-img1 = cv2.imread('../Assets/image287.jpg',0)  
-img2 = cv2.imread('../Assets/image288.jpg',0) 
+img1 = cv2.imread('../Assets/image287contrast.jpg',0)  
+img2 = cv2.imread('../Assets/image288contrast.jpg',0) 
 sift = cv2.xfeatures2d.SIFT_create()
 
 kp1, des1 = sift.detectAndCompute(img1,None)
@@ -11,7 +11,7 @@ kp2, des2 = sift.detectAndCompute(img2,None)
 
 FLANN_INDEX_KDTREE = 1
 index_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
-search_params = dict(checks=50)  
+search_params = dict(checks=200)  
 
 flann = cv2.FlannBasedMatcher(index_params,search_params)
 
