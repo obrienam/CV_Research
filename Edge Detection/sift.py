@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 
 img1 = cv2.imread('../Assets/image287contrast.jpg',0)  
 img2 = cv2.imread('../Assets/image288contrast.jpg',0) 
-sift = cv2.xfeatures2d.SIFT_create()
+sift = cv2.xfeatures2d.SURF_create()
 
 kp1, des1 = sift.detectAndCompute(img1,None)
 kp2, des2 = sift.detectAndCompute(img2,None)
