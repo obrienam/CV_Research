@@ -1,5 +1,5 @@
 import cv2
-vidcap = cv2.VideoCapture('/Users/aidanobrien/Documents/GitHub/CV_Research/Edge Detection/rpi22@2016-06-09@17-02-14BirdAndBees.mp4')
+vidcap = cv2.VideoCapture('/Users/aidanobrien/Documents/GitHub/CV_Research/Assets/bees2.mp4')
 def getFrame(sec):
     vidcap.set(cv2.CAP_PROP_POS_MSEC,sec*1000)
     hasFrames,image = vidcap.read()
