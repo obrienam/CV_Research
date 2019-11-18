@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import math
 
 # read images
-img1 = cv2.imread('Assets/image12contrast.jpg')  
-img2 = cv2.imread('Assets/image13contrast.jpg') 
-bk = cv2.imread('Assets/bee-backgroundcontrast.png')
+img1 = cv2.imread('../Assets/image12contrast.jpg')  
+img2 = cv2.imread('../Assets/image13contrast.jpg') 
+bk = cv2.imread('../Assets/bee-backgroundcontrast.png')
 subImage1=(bk.astype('int32')-img1.astype('int32')).clip(0).astype('uint8')
 grey1=cv2.cvtColor(subImage1,cv2.COLOR_BGR2GRAY)
 retval1,thresh1=cv2.threshold(grey1,35,255,cv2.THRESH_BINARY_INV)
