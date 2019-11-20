@@ -2,21 +2,22 @@ import cv2
 import matplotlib.pyplot as plt
 import math
 import numpy as np
-def upContrast(img1,img2,alpha,beta):
-    n_image1 = np.zeros(img1.shape, img1.dtype)
-    n_image2 = np.zeros(img2.shape, img2.dtype)
-    for y in range(img1.shape[0]):
-        for x in range(img1.shape[1]):
-            for c in range(img1.shape[2]):
-                n_image1[y,x,c]=np.clip(alpha*img1[y,x,c] + beta, 0, 255)
-    for y in range(img2.shape[0]):
-        for x in range(img2.shape[1]):
-            for c in range(img2.shape[2]):
-                n_image2[y,x,c]=np.clip(alpha*img2[y,x,c] + beta, 0, 255)
-    return n_image1,n_image2
+def upContrast(image,alpha,beta):
+    n_image = np.zeros(image.shape, image.dtype)
+
+    alpha=1.0
+    beta=0
+
+    alpha=float(1)
+    beta=float(0)
+
+    n_image=np.multiply(image,2)
+
+   
+    return n_image
 def countStill(img1, img2):
     m=0
-    bk = cv2.imread('../Assets/bee-background.png')
+    bk = cv2.imread('../Assets/bee-backgroundcontrast.png')
     subImage1=(bk.astype('int32')-img1.astype('int32')).clip(0).astype('uint8')
     grey1=cv2.cvtColor(subImage1,cv2.COLOR_BGR2GRAY)
     retval1,thresh1=cv2.threshold(grey1,35,255,cv2.THRESH_BINARY_INV)
@@ -57,25 +58,42 @@ def countStill(img1, img2):
 vs=cv2.VideoCapture("C:/Users/obrienam/Documents/GitHub/CV_Research/Assets/bees2.mp4")
 firstFrame=None
 prev_s=None
+bev="Steady"
+s=0
+frame_width = int(vs.get(3))
+frame_height = int(vs.get(4))
+out = cv2.VideoWriter('outpy.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
 while True:
     hasFrames,frame=vs.read()
     if (hasFrames==False):
         break
-    cv2.imshow("vid",frame)
-    if firstFrame is not None:
-        s=countStill(firstFrame,frame)
-        if(prev_s is None):
-            prev_s=s
-        if(prev_s<s):
-            prev_s=s
-            print(s)    
     
+    if firstFrame is not None:
+        #frame=upContrast(frame,2,1)
+        s=countStill(firstFrame,frame)
+        
+        if(prev_s is None):
+            bev="Steady"
+        elif(prev_s<s):  
+            bev="Increasing"
+        elif(prev_s==s):
+            bev="Steady" 
+        elif(prev_s>s):
+            bev="Decreasing"   
+        prev_s=s
+        firstFrame=frame
+    else:    
+        firstFrame=frame
     key=cv2.waitKey(1) & 0xFF
 
     if key == ord("q"):
         break
-    firstFrame=frame
-
+    
+    
+    cv2.putText(frame, "Stationary Bees: {}".format(bev), (10, 20),
+		cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+    cv2.imshow("vid",frame)
+    out.write(frame)
 vs.release()
 cv2.destroyAllWindows()
 
