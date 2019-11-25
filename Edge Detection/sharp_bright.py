@@ -1,20 +1,26 @@
-import cv2 as cv
+import cv2
 import numpy as np
 import sys
 
-image=cv.imread(sys.argv[1])
-n_image = np.zeros(image.shape, image.dtype)
+vs=cv2.VideoCapture("C:/Users/obrienam/Documents/GitHub/CV_Research/Assets/bees2.mp4")
 
-alpha=1.0
-beta=0
+frame_width = int(vs.get(3))
+frame_height = int(vs.get(4))
+out = cv2.VideoWriter('contrast.avi',cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+while True:
+    hasFrames,frame=vs.read()
+    if (hasFrames==False):
+        break
+    for y in range(frame.shape[0]):
+        for x in range(frame.shape[1]):
+            for c in range(frame.shape[2]):
+                frame[y,x,c]=np.clip(2*frame[y,x,c] + 0, 0, 255)
+    key=cv2.waitKey(1) & 0xFF
 
-alpha=float(sys.argv[2])
-beta=float(sys.argv[3])
+    if key == ord("q"):
+        break
+    out.write(frame)
+vs.release()
+cv2.destroyAllWindows()
 
-for y in range(image.shape[0]):
-    for x in range(image.shape[1]):
-        for c in range(image.shape[2]):
-            n_image[y,x,c]=np.clip(alpha*image[y,x,c] + beta, 0, 255)
 
-nm=str.split(sys.argv[1],'.jpg')
-cv.imwrite(nm[0]+"contrast.jpg",n_image)
