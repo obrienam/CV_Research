@@ -1,21 +1,28 @@
 import cv2
 import numpy as np;
+cap = cv2.VideoCapture("C:/Users/obrienam/Documents/GitHub/CV_Research/Assets/fanvid_1.mp4")
+while True:
+    ret,frame = cap.read()
+    if ret==True:
+        params=cv2.SimpleBlobDetector_Params()
+        '''params.minThreshold=10
+        params.maxThreshold=200
+        params.filterByArea=True
+        params.minArea=1500
+        params.filterByCircularity=True
+        params.minCircularity=0.1'''
+        params.filterByConvexity=True
+        params.minConvexity=0.4
+        params.filterByInertia=True
+        params.minInertiaRatio=0.8
+        detector=cv2.SimpleBlobDetector_create(params)
+        keypoints=detector.detect(frame)
+        img=frame.copy()
+        for x in range(1,len(keypoints)):
+            img=cv2.circle(img, (np.int(keypoints[x].pt[0]),np.int(keypoints[x].pt[1])), radius=np.int(keypoints[x].size), color=(255), thickness=-1)
+        cv2.imshow("blob",img)
+        key=cv2.waitKey(30)
 
-image1 = cv2.imread("../Assets/image287.jpg")
-og = image1.copy()
-diff=abs(image1-og)
-
-median = np.median(image1[image1>0])
-mask=image1.copy()
-mask[mask > median+0.07]=0
-mask[mask < median+0.07]=0
-mask[mask > 0]=1
-
-_,contours,_=cv2.findContours(mask,2,1)
-contours=sorted(contours,key=cv2.countourArea)
-out_mask=np.zeros_like(image1)
-
-cv2.drawContours(out_mask, [contours[-1]],-1,255,cv2.FILLED, 1)
-
-out=image1.copy()
-out[out_mask==0]=0
+        
+cap.release()
+cv2.destroyAllWindows()
